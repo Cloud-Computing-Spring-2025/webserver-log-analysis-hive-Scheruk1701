@@ -126,7 +126,7 @@ STORED AS TEXTFILE;
 Load data into partitions:
 ```sql
 INSERT OVERWRITE TABLE web_logs_partitioned PARTITION (status)
-SELECT ip, timestamp, url, user_agent, status FROM web_logs;
+SELECT ip, `timestamp`, url, user_agent, status FROM web_logs;
 ```
 
 ### 7. **Export Results**
