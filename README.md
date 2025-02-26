@@ -62,10 +62,14 @@ LOAD DATA INPATH '/user/hive/web_logs/web_server_logs.csv' INTO TABLE web_logs;
 ```sql
 SELECT COUNT(*) AS total_requests FROM web_logs;
 ```
+- This query retrieves the total number of requests made to the web server by counting all entries in the web_logs table.
+
 #### b) Analyze Status Codes
 ```sql
 SELECT status, COUNT(*) AS count FROM web_logs GROUP BY status;
 ```
+- This query groups web requests by HTTP status codes and counts the number of occurrences of each status code, helping to understand server responses.
+
 #### c) Identify Most Visited Pages
 ```sql
 SELECT url, COUNT(*) AS visits 
@@ -74,6 +78,8 @@ GROUP BY url
 ORDER BY visits DESC 
 LIMIT 3;
 ```
+- This query finds the most visited pages by counting requests for each url. It sorts the results in descending order and returns the top 3 most accessed pages.
+
 #### d) Traffic Source Analysis
 ```sql
 SELECT user_agent, COUNT(*) AS count 
@@ -82,6 +88,8 @@ GROUP BY user_agent
 ORDER BY count DESC 
 LIMIT 3;
 ```
+- This query counts the number of requests from different user agents (browsers/devices) and identifies the top 3 sources of traffic.
+
 #### e) Detect Suspicious Activity
 ```sql
 SELECT ip, COUNT(*) AS failed_requests
@@ -90,6 +98,8 @@ WHERE status IN (404, 500)
 GROUP BY ip
 HAVING failed_requests > 3;
 ```
+- This query detects potential malicious activity by identifying IPs that have encountered multiple failed requests (HTTP 404 or 500 errors). It filters IPs with more than 3 failed requests.
+
 #### f) Analyze Traffic Trends
 ```sql
 SELECT substr(`timestamp`, 0, 16) AS minute, COUNT(*) AS request_count
@@ -97,6 +107,7 @@ FROM web_logs
 GROUP BY substr(`timestamp`, 0, 16)
 ORDER BY minute;
 ```
+- This query groups web requests by minute-level timestamps to analyze traffic patterns over time.
 
 ### 6. **Implement Partitioning for Performance Optimization**
 Create a partitioned table:
